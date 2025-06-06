@@ -36,13 +36,17 @@ Now run the bellow command in backend folder(job-admin-server) to populate the d
     node src/database/seed-data.js
 
 ### 3. Run the Development Servers
+
 cd job-admin-admin
 npm run start:dev
+
 Server Run in url ( http://localhost:5000)
 
 ### 4. Run the Development Client
+
 cd job-admin-client
 npm run dev
+
 Client Run in url ( http://localhost:3000)
 
 
