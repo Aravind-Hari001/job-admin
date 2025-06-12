@@ -46,7 +46,7 @@ export default function JobCard({ job }: { job: Job }) {
     return `${minLPA} - ${maxLPA} LPA`;
   }
   const companyLogos: Record<string, string> = {
-    amazon: '/img/amazon.webp',
+    amazon: '/img/amazon.jpg',
     swiggy: '/img/swiggy.png',
     tesla: '/img/tesla.png',
   };
