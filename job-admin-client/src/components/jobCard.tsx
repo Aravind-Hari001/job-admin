@@ -8,7 +8,6 @@ import {
   Avatar,
   Box,
   Chip,
-  Stack,
 } from '@mui/material';
 import Image from 'next/image';
 import { Job } from '@/types/job';
@@ -16,7 +15,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
 
 export default function JobCard({ job }: { job: Job }) {
-  function timeAgo(createdAt: string): string {
+  function timeAgo(createdAt: any): string {
     if (!createdAt) return "Just Now";
     const now = new Date();
     const posted = new Date(createdAt);
@@ -36,12 +35,16 @@ export default function JobCard({ job }: { job: Job }) {
     return `${diffMonths} mnt Ago`;
   }
 
+  // function formatSalaryLPA(min: number, max: number): string {
+  //   const minLPA = ((min * 12) / 100000).toFixed(1);
+  //   const maxLPA = ((max * 12) / 100000).toFixed(1);
+  //   return `${minLPA} - ${maxLPA} LPA`;
+  // }
   function formatSalaryLPA(min: number, max: number): string {
-    const minLPA = ((min * 12) / 100000).toFixed(1);
-    const maxLPA = ((max * 12) / 100000).toFixed(1);
+    const minLPA = (min / 100000).toFixed(1);
+    const maxLPA = (max / 100000).toFixed(1);
     return `${minLPA} - ${maxLPA} LPA`;
   }
-
   const companyLogos: Record<string, string> = {
     amazon: '/img/amazon.webp',
     swiggy: '/img/swiggy.png',
@@ -64,21 +67,21 @@ export default function JobCard({ job }: { job: Job }) {
       <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <Box display="flex" justifyContent={"space-between"}>
           <Box display="flex" alignItems="center" gap={1} mb={1}>
-            <Avatar sx={{ bgcolor: '#eee', width: 56, height: 56, borderRadius:'5px', padding:'5px' }}>
+            <Avatar sx={{ background: 'linear-gradient(120deg,#fdfdfb,#eee,#eee)',boxShadow:'0 0 5px 1px rgba(221, 220, 220, 0.7)', width: 56, height: 56, borderRadius: '10px', padding: '5px' }}>
               {companyLogos[job.company_name.toLowerCase()] ? (
                 <Image
                   src={companyLogos[job.company_name.toLowerCase()]}
                   alt={job.company_name}
                   width={40}
                   height={40}
-                  style={{borderRadius:'50px'}}
+                  style={{ borderRadius: '50px' }}
                 />
               ) : (
                 <BusinessIcon />
               )}
             </Avatar>
             <Typography variant="subtitle1">
-              {companyLogos[job.company_name.toLowerCase()] ?'':job.company_name}
+              {companyLogos[job.company_name.toLowerCase()] ? '' : job.company_name}
             </Typography>
           </Box>
           <Chip
@@ -121,8 +124,8 @@ export default function JobCard({ job }: { job: Job }) {
               fontWeight: 600,
               fontSize: 14,
               cursor: "pointer",
-              padding:'10px',
-              borderRadius:'8px',
+              padding: '10px',
+              borderRadius: '8px',
               boxShadow: "0 0 2px 2px rgba(211, 212, 214, 0.4)"
             }}
           >

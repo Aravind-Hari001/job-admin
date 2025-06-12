@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Job } from '@/types/job';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 
@@ -28,7 +27,7 @@ export const getJobs = async (filters = {}) => {
   }
 };
 
-export const createJob = async (job: Job) => {
+export const createJob = async (job: any) => {
   try {
     const res = await axios.post(`${BASE_URL}/job`, job);
     if (res.data.status) {

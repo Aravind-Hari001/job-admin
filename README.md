@@ -22,19 +22,31 @@ cd job-admin-server
 npm install
 
 ### 2. Seed the Database
-First create DB "JobManagement" in PG Admin then, 
-Run the following command in backend folder(job-admin-server) to populate the database by creating table("jobs") with initial data:
+First create DB "JobManagement" in PG Admin then,
+   ### Set db username and password in .env Varible which was in job-admin-server dir. ther you see
+    DB_HOST=localhost
+    DB_PORT=5432
+    DB_NAME=JobManagement
+    DB_USER=postgres
+    DB_PASS=root
 
-node src/database/seed-data.js
+
+Now run the bellow command in backend folder(job-admin-server) to populate the database by creating table("locations","jobs") with initial data(location & job):
+
+    node src/database/seed-data.js
 
 ### 3. Run the Development Servers
+
 cd job-admin-admin
 npm run start:dev
+
 Server Run in url ( http://localhost:5000)
 
 ### 4. Run the Development Client
+
 cd job-admin-client
 npm run dev
+
 Client Run in url ( http://localhost:3000)
 
 

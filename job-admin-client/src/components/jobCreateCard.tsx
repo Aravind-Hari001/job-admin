@@ -12,9 +12,9 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import KeyboardDoubleArrowDownOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowDownOutlined';
-import { createJob, getLocations } from '@/services/jobService';
+import { createJob, getLocations, getMinMaxSalary } from '@/services/jobService';
 
-export default function JobCreateCard({ open, onClose, fetchJobs }: any) {
+export default function JobCreateCard({ open, onClose, fetchJobs, filters, handleChanged }: any) {
   const [locations, setLocations] = useState<{ id: number; name: string }[]>([]);
   const [formData, setFormData] = useState({
     title: '',
@@ -27,6 +27,21 @@ export default function JobCreateCard({ open, onClose, fetchJobs }: any) {
     description: '',
   });
 
+  const fetchMinMaxSalary = async () => {
+    try {
+      const res = await getMinMaxSalary();
+      if (res.success) {
+        console.log(res.data[0]);
+
+        const salary = [res.data[0]?.salary_min, res.data[0]?.salary_max]
+        handleChanged(null, null, { 'salary_min': salary[0], 'salary_max': salary[1] }, true)
+      } else {
+        console.log('Failed to fetch locations:', res.message);
+      }
+    } catch (error) {
+      console.log('Error fetching locations:', error);
+    }
+  };
   useEffect(() => {
     const fetchLocations = async () => {
       try {
@@ -69,7 +84,14 @@ export default function JobCreateCard({ open, onClose, fetchJobs }: any) {
       deadline: formData.deadline,
       description: formData.description,
     };
-    payload.deadline =  new Date(payload.deadline).toISOString().split('T')[0];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const deadlineDate = new Date(payload.deadline);
+    if (deadlineDate < today) {
+      alert('Deadline must be today or a future date.')
+      return;
+    }
+    payload.deadline = new Date(payload.deadline).toISOString().split('T')[0];
 
     if (payload.location_id == null) {
       alert('Failed to create job: Location is not available');
@@ -83,6 +105,7 @@ export default function JobCreateCard({ open, onClose, fetchJobs }: any) {
       const res = await createJob(payload);
       if (res?.success) {
         alert('Job created successfully!');
+        fetchMinMaxSalary();
         setFormData({
           title: '',
           company: '',
@@ -94,7 +117,7 @@ export default function JobCreateCard({ open, onClose, fetchJobs }: any) {
           description: '',
         });
         onClose();
-        fetchJobs();
+        fetchJobs(filters);
       } else {
         alert('Failed to create job: ' + res?.message);
       }
@@ -107,7 +130,7 @@ export default function JobCreateCard({ open, onClose, fetchJobs }: any) {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Box className="job-modal-box" sx={{ maxWidth: 600, bgcolor: 'background.paper', p: 4, mx: 'auto', borderRadius: 2 }}>
+      <Box className="job-modal-box" sx={{ maxWidth: 600, bgcolor: 'background.paper', p: 4, mx: 'auto',my: 'auto', borderRadius: 2 }}>
         <Typography variant="h6" fontWeight={600} mb={3} textAlign="center">
           Create Job Opening
         </Typography>
@@ -164,7 +187,7 @@ export default function JobCreateCard({ open, onClose, fetchJobs }: any) {
                 return filtered.length > 0 ? filtered : [];
               }}
               renderOption={(props, option) => (
-                <li {...props}>{option.name}</li>
+                <li {...props} key={option.id}>{option.name}</li>
               )}
             />
 
@@ -236,17 +259,22 @@ export default function JobCreateCard({ open, onClose, fetchJobs }: any) {
         </Box>
 
         {/* Job Description */}
-        <TextField
-          fullWidth
-          multiline
-          rows={4}
-          label="Job Description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          placeholder="Please share a description to let the candidate know more about the job role"
-          sx={{ mb: 3 }}
-        />
+        <Box>
+          <Typography variant="body1" gutterBottom>
+            Job Description
+          </Typography>
+          <TextField
+            fullWidth
+            multiline
+            rows={4}
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="Please share a description to let the candidate know more about the job role"
+            sx={{ mb: 3 }}
+          />
+        </Box>
+
 
         {/* Buttons */}
         <Box display="flex" justifyContent="space-between">

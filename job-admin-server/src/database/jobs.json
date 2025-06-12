@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "title": "React Developer",
+    "company_name": "Amazon",
+    "location_id": 224,
+    "job_type": "FullTime",
+    "salary_min": 420000,
+    "salary_max": 700000,
+    "description": "Looking for skilled React developers. Experience with Next.js is a plus. Knowledge of state management libraries required.",
+    "deadline": "2025-08-10",
+    "created_at": "2025-01-12T08:50:12.335Z"
+  },
+  {
+    "id": 2,
+    "title": "Backend Developer",
+    "company_name": "Swiggy",
+    "location_id": 224,
+    "job_type": "FullTime",
+    "salary_min": 500000,
+    "salary_max": 900000,
+    "description": "Backend developer required with expertise in Node.js and MongoDB. REST API development experience preferred.",
+    "deadline": "2025-08-15",
+    "created_at": "2025-06-12T09:05:30.335Z"
+  },
+  {
+    "id": 3,
+    "title": "Java Developer",
+    "company_name": "Tesla",
+    "location_id": 224,
+    "job_type": "FullTime",
+    "salary_min": 600000,
+    "salary_max": 1100000,
+    "description": "Hiring Java developers with experience in Spring Boot. Microservices knowledge is mandatory.",
+    "deadline": "2025-08-05",
+    "created_at": "2025-06-12T09:12:52.335Z"
+  },
+  {
+    "id": 4,
+    "title": "Python Developer",
+    "company_name": "Amazon",
+    "location_id": 606,
+    "job_type": "FullTime",
+    "salary_min": 550000,
+    "salary_max": 950000,
+    "description": "We need a Python developer skilled in Flask or Django. Experience with APIs and databases required.",
+    "deadline": "2025-07-30",
+    "created_at": "2025-06-12T09:19:42.335Z"
+  },
+  {
+    "id": 5,
+    "title": "Next.js Developer",
+    "company_name": "Swiggy",
+    "location_id": 606,
+    "job_type": "FullTime",
+    "salary_min": 600000,
+    "salary_max": 1000000,
+    "description": "Frontend developer with strong experience in Next.js and TypeScript. Good understanding of SSR and SSG.",
+    "deadline": "2025-08-20",
+    "created_at": "2025-06-12T09:25:12.335Z"
+  },
+  {
+    "id": 6,
+    "title": "C++ Developer",
+    "company_name": "Tesla",
+    "location_id": 606,
+    "job_type": "FullTime",
+    "salary_min": 750000,
+    "salary_max": 1300000,
+    "description": "We are hiring C++ developers for embedded systems projects. Real-time system experience is a plus.",
+    "deadline": "2025-08-18",
+    "created_at": "2025-02-12T09:31:12.335Z"
+  },
+  {
+    "id": 7,
+    "title": "DevOps Engineer",
+    "company_name": "Amazon",
+    "location_id": 119,
+    "job_type": "FullTime",
+    "salary_min": 850000,
+    "salary_max": 1500000,
+    "description": "Looking for DevOps engineers skilled in AWS, Docker, and CI/CD pipelines. Kubernetes experience preferred.",
+    "deadline": "2025-08-14",
+    "created_at": "2025-06-12T09:38:12.335Z"
+  },
+  {
+    "id": 8,
+    "title": "Mobile App Developer",
+    "company_name": "Swiggy",
+    "location_id": 119,
+    "job_type": "FullTime",
+    "salary_min": 500000,
+    "salary_max": 950000,
+    "description": "React Native developer required for cross-platform mobile app development. Strong UI/UX understanding is expected.",
+    "deadline": "2025-08-02",
+    "created_at": "2025-03-12T09:45:12.335Z"
+  },
+  {
+    "id": 9,
+    "title": "Full Stack Developer",
+    "company_name": "Tesla",
+    "location_id": 119,
+    "job_type": "FullTime",
+    "salary_min": 700000,
+    "salary_max": 1300000,
+    "description": "Proficient in React, Node.js, and PostgreSQL. Should have experience in developing REST APIs and GraphQL.",
+    "deadline": "2025-08-09",
+    "created_at": "2025-06-12T09:52:12.335Z"
+  },
+  {
+    "id": 10,
+    "title": "API Developer",
+    "company_name": "Amazon",
+    "location_id": 972,
+    "job_type": "FullTime",
+    "salary_min": 450000,
+    "salary_max": 800000,
+    "description": "API developer with knowledge of REST and GraphQL. Familiarity with security best practices in APIs required.",
+    "deadline": "2025-08-11",
+    "created_at": "2025-04-12T10:00:12.335Z"
+  }
+]

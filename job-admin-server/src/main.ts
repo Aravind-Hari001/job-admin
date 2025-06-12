@@ -8,10 +8,13 @@ async function bootstrap() {
 
   const config = app.get(ConfigService);
   const port = config.get<number>('PORT') || 5000;
-  const frontendUrl = config.get<string>('FRONTEND_URL') || '*';
+  // const frontendUrl = config.get<string>('FRONTEND_URL') || '*';
+  // const frontendUrl = 'https://kuwait-zip-legacy-projectors.trycloudflare.com/'
 
   app.enableCors({
-    origin: frontendUrl,
+    origin: (origin, callback) => {
+      callback(null, true);
+    },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });

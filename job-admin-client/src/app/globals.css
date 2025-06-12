@@ -1,7 +1,9 @@
+*{
+  font-family: "Inter",sans-serif;
+}
 body {
   top: 0;
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
   background: none;
 }
 

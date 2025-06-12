@@ -6,7 +6,7 @@ export class LocationController {
   constructor(private readonly locationService: LocationService) {}
 
   @Get()
-  getLocations() {
+  getLocations() : any{
     return this.locationService.getLocations();
   }
 }

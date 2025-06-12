@@ -1,6 +1,16 @@
 const fs = require('fs');
 const path = require('path');
-const pool = require('./config');
+
+require('dotenv').config();
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+});
 
 async function seedDatabase() {
   const client = await pool.connect();
@@ -44,6 +54,83 @@ async function seedDatabase() {
       );
     }
 
+    console.log('🚀 Inserting Jobs...');
+    await client.query(
+        `
+        INSERT INTO jobs (
+          title,company_name,location_id,job_type,salary_min,salary_max,description,deadline
+        ) VALUES
+        (
+          'NodeJs Developer',
+          'Tesla',
+          713,
+          'FullTime',
+          45000,
+          70000,
+          'Proficient in both frontend (React, Next.js) and backend (Node.js, NestJS) technologies.
+          Hands-on experience with databases like PostgreSQL and MongoDB.
+          Solid understanding of RESTful APIs, JWT authentication, and Git workflows.',
+          CURRENT_DATE + INTERVAL '50 days'
+        ),
+        (
+          'Backend Developer',
+          'swiggy',
+          1146,
+          'FullTime',
+          200000,
+          600000,
+          'We are hiring a Backend Developer to build robust and scalable server-side applications. The role involves API development, database design, and ensuring high system performance. Experience with modern backend frameworks is preferred.',
+          CURRENT_DATE + INTERVAL '60 days'
+        ),
+        (
+          'Fullstack Developer',
+          'Amazon',
+          141,
+          'FullTime',
+          25000,
+          55000,
+          'Proficient in both frontend (React, Next.js) and backend (Node.js, NestJS) technologies.
+          Hands-on experience with databases like PostgreSQL and MongoDB.
+          Solid understanding of RESTful APIs, JWT authentication, and Git workflows.',
+          CURRENT_DATE + INTERVAL '75 days'
+        ),
+        (
+          'UI / UX Developer',
+          'AHInfosea',
+          1214,
+          'FullTime',
+          100000,
+          500000,
+          'Proficient in both frontend (React, Next.js) and backend (Node.js, NestJS) technologies.
+          Hands-on experience with databases like PostgreSQL and MongoDB.
+          Solid understanding of RESTful APIs, JWT authentication, and Git workflows.',
+          CURRENT_DATE + INTERVAL '65 days'
+        ),
+        (
+          'Java Developer',
+          'Microsoft',
+          1163,
+          'FullTime',
+          50000,
+          300000,
+          'Proficient in both frontend (React, Next.js) and backend (Node.js, NestJS) technologies.
+          Hands-on experience with databases like PostgreSQL and MongoDB.
+          Solid understanding of RESTful APIs, JWT authentication, and Git workflows.',
+          CURRENT_DATE + INTERVAL '80 days'
+        ),
+        (
+          'Mobile App Developer',
+          'Amazon',
+          1163,
+          'FullTime',
+          35000,
+          80000,
+          'Proficient in both frontend (React, Next.js) and backend (Node.js, NestJS) technologies.
+          Hands-on experience with databases like PostgreSQL and MongoDB.
+          Solid understanding of RESTful APIs, JWT authentication, and Git workflows.',
+          CURRENT_DATE + INTERVAL '55 days'
+      );`
+    );
     console.log('✅ Database seeded successfully.');
   } catch (err) {
     console.log('❌ Error seeding database:', err);

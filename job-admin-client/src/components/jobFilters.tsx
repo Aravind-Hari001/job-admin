@@ -1,13 +1,9 @@
 'use client';
 
 import {
-  Box,
   TextField,
   Select,
   MenuItem,
-  Slider,
-  InputAdornment,
-  Typography,
   Autocomplete,
 } from '@mui/material';
 
@@ -44,7 +40,9 @@ export default function JobFilters({ handleChange, filters }: any) {
       try {
         const res = await getMinMaxSalary();
         if (res.success) {
-          let salary = [res.data[0]?.salary_min, res.data[0]?.salary_max]
+          console.log(res.data[0]);
+
+          const salary = [res.data[0]?.salary_min, res.data[0]?.salary_max]
           setMinMaxSalary(salary[0] && salary[1] ? salary : [0, 0]);
           setSalaryRange(formatSalary(salary[0], salary[1]));
           handleChange(null, null, { 'salary_min': salary[0], 'salary_max': salary[1] })
@@ -60,14 +58,17 @@ export default function JobFilters({ handleChange, filters }: any) {
     fetchMinMaxSalary();
   }, []);
 
+  // function convertSalary(money: number) {
+  //   if (money < 1000) {
+  //     return `₹${money}`;
+  //   }
+  //   if (money >= 1000 && money < 100000) {
+  //     return `₹${(money / 1000).toFixed(1)}k`;
+  //   }
+  //   return `₹${((money * 12) / 100000).toFixed(1)}LPA`;
+  // }
   function convertSalary(money: number) {
-    if (money < 1000) {
-      return `₹${money}`;
-    }
-    if (money >= 1000 && money < 100000) {
-      return `₹${(money / 1000).toFixed(1)}k`;
-    }
-    return `₹${((money * 12) / 100000).toFixed(1)}LPA`;
+    return `₹${((money / 12)/1000).toFixed(0)}k`;
   }
   function formatSalary(min: number, max: number): string {
     return `${convertSalary(min)} - ${convertSalary(max)}`;
@@ -109,28 +110,43 @@ export default function JobFilters({ handleChange, filters }: any) {
         <Autocomplete
           options={locations}
           getOptionLabel={(option) => option.name}
+          value={
+            filters.location_id === ''
+              ? null
+              : locations.find((loc) => loc.id === filters.location_id) || null
+          }
           onChange={(e, value) => {
             handleChange('location_id', value ? value.id : '');
           }}
-          renderInput={(params) => (
-            <TextField {...params} placeholder="Preferred Location" />
+          filterOptions={(options, state) =>
+            options.filter((option) =>
+              option.name.toLowerCase().includes(state.inputValue.toLowerCase())
+            )
+          }
+          renderOption={(props, option) => (
+            <li {...props} key={option.id}>
+              {option.name}
+            </li>
           )}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                border: 'none',
-              },
-              '&:hover fieldset': {
-                border: 'none',
-              },
-              '&.Mui-focused fieldset': {
-                border: 'none',
-              },
-            },
-            width: '100%'
-          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              placeholder="Preferred Location"
+              fullWidth
+              InputProps={{
+                ...params.InputProps,
+                sx: {
+                  '& fieldset': { border: 'none' },
+                  '&:hover fieldset': { border: 'none' },
+                  '&.Mui-focused fieldset': { border: 'none' },
+                },
+              }}
+            />
+          )}
+          sx={{ width: '100%' }}
         />
       </div>
+
 
       {/* Job Type */}
       <div className="cover-fields">
@@ -168,6 +184,7 @@ export default function JobFilters({ handleChange, filters }: any) {
         </div>
         <input
           type="range"
+          value={filters.salary_min}
           min={min_maxSalary[0]}
           max={min_maxSalary[1]}
           onChange={(e) => {
@@ -175,8 +192,8 @@ export default function JobFilters({ handleChange, filters }: any) {
             handleChange('salary_min', Number(e.target.value));
           }}
           style={{
-            background: `linear-gradient(to right, black 0%, black ${((filters.salary_min / filters.salary_max) * 100 - 5).toFixed(0)}%, #ccc ${((filters.salary_min / filters.salary_max) * 100 - 5).toFixed(0)}%, #ccc 100%)`,
-            width:"85%",
+            background: `linear-gradient(to right, black 0%, black ${(((filters.salary_min - min_maxSalary[0]) / (min_maxSalary[1] - min_maxSalary[0])) * 100).toFixed(0)}%, #ccc ${(((filters.salary_min - min_maxSalary[0]) / (min_maxSalary[1] - min_maxSalary[0])) * 100 - 2).toFixed(0)}%, #ccc 100%)`,
+            width: "85%",
           }}
         />
       </div>

@@ -2,13 +2,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, Box, Container, Grid } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+
+
 import { getJobs } from '@/services/jobService';
-import Link from 'next/link';
 import Image from 'next/image';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import RecordVoiceOverOutlinedIcon from '@mui/icons-material/RecordVoiceOverOutlined';
 
 import CreateJobModal from '@/components/jobCreateCard';
 import JobCard from '@/components/jobCard';
@@ -46,13 +49,19 @@ export default function Home() {
   const handleChange = (
     key: string,
     value: string | number,
-    salary?: { salary_min?: number; salary_max?: number }
+    salary?: { salary_min?: number; salary_max?: number },
+    load = false
   ) => {
     setFilters((prev) => {
       const updatedFilters = salary
         ? { ...prev, ...salary }
         : { ...prev, [key]: value };
-      fetchJobs(updatedFilters);
+      if (load) {
+        updatedFilters['title'] = '';
+        updatedFilters['location_id'] = '';
+        updatedFilters['job_type'] = 'All Types';
+      }
+      (salary && !load) ? null : fetchJobs(updatedFilters);
       return updatedFilters;
     });
   };
@@ -88,7 +97,7 @@ export default function Home() {
           </Box>
         </Toolbar>
       </AppBar>
-      <CreateJobModal open={open} onClose={() => setOpen(false)} fetchJobs={fetchJobs} />
+      <CreateJobModal open={open} onClose={() => setOpen(false)} fetchJobs={fetchJobs} filters={filters} handleChanged={handleChange} />
 
       <Box>
         <JobFilters handleChange={handleChange} filters={filters} />
@@ -98,11 +107,15 @@ export default function Home() {
         marginRight: "auto",
         marginLeft: "auto",
         boxSizing: 'border-box',
-        position:"relative"
+        position: "relative"
       }}>
-        <Grid container spacing={2} mt={2} sx={{width:"100%"}}>
-          {jobs.map((job: any) => (
-            <Grid item xs={12} sm={6} md={3} key={job.id} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+        <Grid container spacing={2} mt={2} sx={{ width: "100%" }}>
+          {jobs.map((job: any, index: number) => (
+            <Grid
+              key={job?.id ?? index}
+              component="div"
+              sx={{ display: 'flex', justifyContent: 'flex-start' }}
+            >
               <JobCard job={job} />
             </Grid>
           ))}
